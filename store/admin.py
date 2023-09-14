@@ -6,4 +6,3 @@ from store.models import Book
 @admin.register(Book)
 class BookAdmin(ModelAdmin):
     pass
-
