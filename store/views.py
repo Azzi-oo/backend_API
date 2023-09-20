@@ -11,8 +11,8 @@ from django.db.models import Count, Case, When
 
 
 class BookViewSet(ModelViewSet):
-    queryset = Book.objects.all().annotate(
-            annoteted_likes=Count(Case(When(userbookrelation__like=True, then=1)))).order_by('id')
+    # queryset = Book.objects.all().annotate(
+    #         annoteted_likes=Count(Case(When(userbookrelation__like=True, then=1)))).order_by('id')
     serializer_class = BookSerializers
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['price']

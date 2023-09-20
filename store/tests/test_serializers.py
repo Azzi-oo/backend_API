@@ -1,15 +1,18 @@
 from django.test import TestCase
 from store.serializers import BookSerializers
-from store.models import Book
+from store.models import Book, User
 from django.db.models import Count, Case, When
 
 
 class BookSerializerTestCase(TestCase):
     def test_ok(self):
+        user_1 = User.objects.create(username='user1')
+        user_2 = User.objects.create(username='user2')
+
         book_1 = Book.objects.create(name='Test book 1', price=25,
-                                     author_name='Author 1')
+                                     author_name='Author 1', owner=user_1)
         book_2 = Book.objects.create(name='Test book 2', price=55,
-                                     author_name='Author 2')
+                                     author_name='Author 2', owner=user_2)
         books = Book.objects.all().annotate(
             annoteted_likes=Count(Case(When(userbookrelation__like=True, then=1)))).order_by('id')
         data = BookSerializers([book_1, book_2], many=True).data
